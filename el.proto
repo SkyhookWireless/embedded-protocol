@@ -109,6 +109,14 @@ message NbiotCells {
 }
 
 message Rs {
+    enum Status {
+        SUCCESS = 0;
+        UNSPECIFIED_ERROR = 1;
+        BAD_PARTNER_ID_ERROR = 2;
+        DECODE_FAILURE_ERROR = 3;
+        API_SERVER_ERROR = 4;
+    }
+
     enum Source {
         UNKNOWN = 0;
         HYBRID = 1;
@@ -116,8 +124,10 @@ message Rs {
         WIFI = 3;
         GNSS = 4;
     }
+
     double lat = 1;
     double lon = 2;
     uint32 hpe = 3;
     Source source = 4;
+    Status status = 5;
 }
