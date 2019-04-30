@@ -23,8 +23,17 @@ message RqHeader {
 }
 
 message RsHeader {
+    enum Status {
+        SUCCESS = 0;
+        UNSPECIFIED_ERROR = 1;
+        BAD_PARTNER_ID_ERROR = 2;
+        DECODE_FAILURE_ERROR = 3;
+        API_SERVER_ERROR = 4;
+    }
+
     int32 crypto_info_length = 1;
     int32 rs_length = 2; // Includes any AES padding
+    Status status = 3;
 }
 
 message CryptoInfo {
@@ -116,6 +125,7 @@ message Rs {
         WIFI = 3;
         GNSS = 4;
     }
+
     double lat = 1;
     double lon = 2;
     uint32 hpe = 3;
