@@ -57,7 +57,7 @@ message Rq {
 
 message Aps {
     uint32 connected_idx_plus_1 = 1; // 0 means that device is not connected to any AP
-    uint32 common_frequency = 2;     // Valued only if all frequency values are the same.
+    uint32 common_freq_plus_1 = 2;     // Valued only if all frequency values are the same.
     uint32 common_age_plus_1 = 3;    // Valued only if all age values are the same.
     repeated int64 mac = 4;
     repeated int32 frequency = 5;    // Not valued if all frequency are the same. Use common_frequency
