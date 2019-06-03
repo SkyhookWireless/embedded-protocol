@@ -53,6 +53,8 @@ message Rq {
     LteCells lte_cells = 6;
     CdmaCells cdma_cells = 7;
     NbiotCells nbiot_cells = 8;
+    Gnss gnss = 9;
+    bytes ipaddr = 10;
 }
 
 message Aps {
@@ -116,6 +118,17 @@ message NbiotCells {
     repeated uint32 tac = 5;
     repeated uint32 e_cellid = 6;
     repeated uint32 neg_rssi = 7;   // -nrsrp
+    repeated uint32 age = 8;
+}
+
+message Gnss {
+    repeated float lat = 1;
+    repeated float lon = 2;
+    repeated uint32 hpe = 3;
+    repeated float alt = 4;
+    repeated uint32 vpe = 5;
+    repeated float speed = 6;
+    repeated float bearing = 7;
     repeated uint32 age = 8;
 }
 
