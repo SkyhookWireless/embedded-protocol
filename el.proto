@@ -54,7 +54,6 @@ message Rq {
     CdmaCells cdma_cells = 7;
     NbiotCells nbiot_cells = 8;
     Gnss gnss = 9;
-    bytes ipaddr = 10;
 }
 
 message Aps {
@@ -84,7 +83,7 @@ message UmtsCells {
     repeated uint32 mcc = 3;
     repeated uint32 mnc = 4;
     repeated uint32 lac = 5;
-    repeated uint32 ci = 6;
+    repeated uint32 ucid = 6;
     repeated uint32 neg_rssi = 7;    // -rscp
     repeated uint32 age = 8;
 }
