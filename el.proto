@@ -128,7 +128,8 @@ message Gnss {
     repeated uint32 vpe = 5;
     repeated int32 speed = 6;       // Scaled 10
     repeated int32 bearing = 7;
-    repeated uint32 age = 8;
+    repeated uint32 nsat = 8;
+    repeated uint32 age = 9;
 }
 
 message Rs {
