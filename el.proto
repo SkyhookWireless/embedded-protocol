@@ -121,13 +121,13 @@ message NbiotCells {
 }
 
 message Gnss {
-    repeated float lat = 1;
-    repeated float lon = 2;
+    repeated int32 lat = 1;         // Scaled 1000000
+    repeated int32 lon = 2;         // Scaled 1000000
     repeated uint32 hpe = 3;
-    repeated float alt = 4;
+    repeated int32 alt = 4;         // Scaled 10
     repeated uint32 vpe = 5;
-    repeated float speed = 6;
-    repeated float bearing = 7;
+    repeated int32 speed = 6;       // Scaled 10
+    repeated int32 bearing = 7;
     repeated uint32 age = 8;
 }
 
