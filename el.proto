@@ -53,6 +53,7 @@ message Rq {
     LteCells lte_cells = 6;
     CdmaCells cdma_cells = 7;
     NbiotCells nbiot_cells = 8;
+    Gnss gnss = 9;
 }
 
 message Aps {
@@ -82,7 +83,7 @@ message UmtsCells {
     repeated uint32 mcc = 3;
     repeated uint32 mnc = 4;
     repeated uint32 lac = 5;
-    repeated uint32 ci = 6;
+    repeated uint32 ucid = 6;
     repeated uint32 neg_rssi = 7;    // -rscp
     repeated uint32 age = 8;
 }
@@ -117,6 +118,18 @@ message NbiotCells {
     repeated uint32 e_cellid = 6;
     repeated uint32 neg_rssi = 7;   // -nrsrp
     repeated uint32 age = 8;
+}
+
+message Gnss {
+    repeated int32 lat = 1;         // Actual latitude times 10^6
+    repeated int32 lon = 2;         // Actual longitude times 10^6
+    repeated uint32 hpe = 3;
+    repeated int32 alt = 4;         // Actual altitude times 10
+    repeated uint32 vpe = 5;
+    repeated uint32 speed = 6;       // Actual speed times 10
+    repeated uint32 bearing = 7;
+    repeated uint32 nsat = 8;
+    repeated uint32 age = 9;
 }
 
 message Rs {
