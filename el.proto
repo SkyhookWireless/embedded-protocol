@@ -38,7 +38,6 @@ message RsHeader {
     int32 crypto_info_length = 1;
     int32 rs_length = 2; // Includes any AES padding
     Status status = 3;
-    int32 client_conf_length = 4;
 }
 
 message CryptoInfo {
@@ -149,9 +148,10 @@ message Rs {
     double lon = 2;
     uint32 hpe = 3;
     Source source = 4;
+    ClientConfig config = 5;
 }
 
-message ClientConfig {
+message ClientConfig {             // zero value means 'not overridden' i.e use default
     uint32 total_beacons = 1;
     uint32 max_ap_beacons = 2;
     uint32 cache_match_threshold = 3;
