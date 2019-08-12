@@ -21,6 +21,7 @@ message RqHeader {
     int32 partner_id = 1;
     int32 crypto_info_length = 2;
     int32 rq_length = 3; // Includes any AES padding
+    uint32 sw_version = 4;
 }
 
 message RsHeader {
