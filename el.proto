@@ -6,15 +6,17 @@ syntax = "proto3";
  * for the first byte, which represents the length of the encoded header
  * message).
  *
- * +-----------+----------------------------+--------------------+============================================+----------------------------------+
- * | header len| Encoded RqHeader/RsHeader  | Encoded CryptoInfo || Encoded, padded and encrypted Rq/Rs body || ClientConfig (response only)     |
- * | (1 byte)  | (variable length < 256)    | (variable length)  || (variable length)                        || (variable length, including zero)|
- * +-----------+----------------------------+--------------------+============================================+----------------------------------+
+ * +-----------+----------------------------+--------------------+========================================================================+
+ * | header len| Encoded RqHeader/RsHeader  | Encoded CryptoInfo || Encoded, padded and encrypted Rq/Rs body (with optional Config in Rs) |
+ * | (1 byte)  | (variable length < 256)    | (variable length)  || (variable length)                                                     |
+ * +-----------+----------------------------+--------------------+========================================================================+
  *
  * The Rq/Rs body is padded (AES has a 16-byte block length) and encrypted
  * after serialization and decrypted and de-padded before deserialization. The
  * header length byte, header, CryptoInfo and ClientConfig fields are not
  * encrypted. 
+ * Config is only included in response when request header has the config request flag true.
+ * Config parameters override the default value in client only when they are non-zero
  */
 /* clang-format off */
 
@@ -38,7 +40,6 @@ message RsHeader {
     int32 crypto_info_length = 1;
     int32 rs_length = 2; // Includes any AES padding
     Status status = 3;
-    int32 client_conf_length = 4;
 }
 
 message CryptoInfo {
@@ -149,9 +150,10 @@ message Rs {
     double lon = 2;
     uint32 hpe = 3;
     Source source = 4;
+    ClientConfig config = 5;
 }
 
-message ClientConfig {
+message ClientConfig {             // zero value means 'not overridden' i.e use default
     uint32 total_beacons = 1;
     uint32 max_ap_beacons = 2;
     uint32 cache_match_threshold = 3;
