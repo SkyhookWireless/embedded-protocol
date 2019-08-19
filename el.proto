@@ -160,5 +160,4 @@ message ClientConfig {             // zero value means 'not overridden' i.e use 
     uint32 cache_age_threshold = 4;
     uint32 cache_beacon_threshold = 5;
     uint32 cache_neg_rssi_threshold = 6;
-    uint32 cache_size = 7;
 }
