@@ -3,8 +3,8 @@ syntax = "proto3";
 /*
  * Buffer streams exchanged between client and server are comprised of the
  * following sequence of encoded (serialized) protocol buffer messages (except
- * for the first byte, which represents the length of the encoded header
- * message).
+ * for the first byte, which is as an unsigned char representing the length of
+ * the encoded header message).
  *
  * +-----------+----------------------------+--------------------+========================================================================+
  * | header len| Encoded RqHeader/RsHeader  | Encoded CryptoInfo || Encoded, padded and encrypted Rq/Rs body (with optional Config in Rs) |
@@ -13,10 +13,11 @@ syntax = "proto3";
  *
  * The Rq/Rs body is padded (AES has a 16-byte block length) and encrypted
  * after serialization and decrypted and de-padded before deserialization. The
- * header length byte, header, CryptoInfo and ClientConfig fields are not
- * encrypted. 
- * Config is only included in response when request header has the config request flag true.
- * Config parameters override the default value in client only when they are non-zero
+ * header length byte, header, and CryptoInfo fields are not encrypted.
+ *
+ * ClientConfig is included in response only when the request_client_conf flag
+ * of the RqHeader is true.  Config parameters override the corresponding
+ * default values in client only when they are non-zero.
  */
 /* clang-format off */
 
@@ -63,12 +64,12 @@ message Rq {
 
 message Aps {
     uint32 connected_idx_plus_1 = 1; // 0 means that device is not connected to any AP
-    uint32 common_freq_plus_1 = 2;     // Valued only if all frequency values are the same.
+    uint32 common_freq_plus_1 = 2;   // Valued only if all frequency values are the same.
     uint32 common_age_plus_1 = 3;    // Valued only if all age values are the same.
     repeated int64 mac = 4;
-    repeated int32 frequency = 5;    // Not valued if all frequency are the same. Use common_frequency
+    repeated int32 frequency = 5;    // Not valued if all frequency are the same.
     repeated uint32 neg_rssi = 6;    // -rssi
-    repeated uint32 age = 7;         // Not valued if all ages are the same. Use common_age_plus_1
+    repeated uint32 age = 7;         // Not valued if all ages are the same.
 }
 
 message GsmCells {
@@ -121,15 +122,15 @@ message NbiotCells {
     repeated uint32 mnc = 4;
     repeated uint32 tac = 5;
     repeated uint32 e_cellid = 6;
-    repeated uint32 neg_rssi = 7;   // -nrsrp
+    repeated uint32 neg_rssi = 7;    // -nrsrp
     repeated uint32 age = 8;
 }
 
 message Gnss {
-    repeated int32 lat = 1;         // Actual latitude times 10^6
-    repeated int32 lon = 2;         // Actual longitude times 10^6
+    repeated int32 lat = 1;          // Actual latitude times 10^6
+    repeated int32 lon = 2;          // Actual longitude times 10^6
     repeated uint32 hpe = 3;
-    repeated int32 alt = 4;         // Actual altitude times 10
+    repeated int32 alt = 4;          // Actual altitude times 10
     repeated uint32 vpe = 5;
     repeated uint32 speed = 6;       // Actual speed times 10
     repeated uint32 bearing = 7;
