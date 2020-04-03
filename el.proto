@@ -152,6 +152,7 @@ message Rs {
     uint32 hpe = 3;
     Source source = 4;
     ClientConfig config = 5;
+    bytes used_aps = 6;
 }
 
 message ClientConfig {             // zero value means 'not overridden' i.e use default
