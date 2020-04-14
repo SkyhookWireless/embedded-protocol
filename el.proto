@@ -152,10 +152,13 @@ message Rs {
     uint32 hpe = 3;
     Source source = 4;
     ClientConfig config = 5;
-    bytes used_aps = 6;
+    bytes used_aps = 6;               // Bitmap denoting whether an AP was Used by server
+                                      // Big endian. Length = number of (APs + 7) / 8
+                                      // LSB of last byte corresponds to first AP
+                                      // LSB of second to last byte corresponds to ninth AP etc
 }
 
-message ClientConfig {             // zero value means 'not overridden' i.e use default
+message ClientConfig {                // zero value means 'not overridden' i.e use default
     uint32 total_beacons = 1;
     uint32 max_ap_beacons = 2;
     uint32 cache_match_threshold = 3;
