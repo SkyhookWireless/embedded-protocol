@@ -153,9 +153,10 @@ message Rs {
     Source source = 4;
     ClientConfig config = 5;
     bytes used_aps = 6;               // Bitmap denoting whether an AP was Used by server
-                                      // Big endian. Length = number of (APs + 7) / 8
-                                      // LSB of last byte corresponds to first AP
-                                      // LSB of second to last byte corresponds to ninth AP etc
+                                      // Big endian. Length = (number of APs + 7) / 8
+                                      // Least Sig Bit of last byte corresponds to first AP
+                                      // Least Sig Bit of second to last byte corresponds to ninth AP etc
+                                      // Aps are counted based on their position in the request
 }
 
 message ClientConfig {                // zero value means 'not overridden' i.e use default
