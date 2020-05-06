@@ -54,6 +54,7 @@ message Rq {
     bytes device_id = 1;
     uint64 timestamp = 2; // Seconds since epoch (Jan 1, 1970)
     Aps aps = 3;
+    bytes vaps = 10; // len, AP index(8bit), nibble index(4bit), replacement nibble(4bit)
     GsmCells gsm_cells = 4;
     UmtsCells umts_cells = 5;
     LteCells lte_cells = 6;
@@ -168,4 +169,6 @@ message ClientConfig {                        // zero value means 'not overridde
     uint32 cache_neg_rssi_threshold = 6;      // Minimum strength of AP
     uint32 cache_match_all_threshold = 7;     // % of matching APs required (high threshold)
     uint32 cache_match_used_threshold = 8;    // % of matching Used APs required (low threshold)
+    uint32 max_vap_per_ap = 9;                // Max Number of VAPs in a AP
+    uint32 max_vap_per_rq = 10;               // Max Number of VAPs in a request
 }
