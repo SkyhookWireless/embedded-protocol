@@ -159,11 +159,13 @@ message Rs {
                                       // Aps are counted based on their position in the request
 }
 
-message ClientConfig {                // zero value means 'not overridden' i.e use default
-    uint32 total_beacons = 1;
-    uint32 max_ap_beacons = 2;
-    uint32 cache_match_threshold = 3;
-    uint32 cache_age_threshold = 4;
-    uint32 cache_beacon_threshold = 5;
-    uint32 cache_neg_rssi_threshold = 6;
+message ClientConfig {                        // zero value means 'not overridden' i.e use default
+    uint32 total_beacons = 1;                 // Number of beacons in a request
+    uint32 max_ap_beacons = 2;                // Number of APs in a request
+    uint32 cache_match_threshold = 3;         // % of matching APs required (obsolete)
+    uint32 cache_age_threshold = 4;           // Maximum age of cacheline (hours)
+    uint32 cache_beacon_threshold = 5;        // Minimun number of Used APs required to use low threshold
+    uint32 cache_neg_rssi_threshold = 6;      // Minimum strength of AP
+    uint32 cache_match_all_threshold = 7;     // % of matching APs required (high threshold)
+    uint32 cache_match_used_threshold = 8;    // % of matching Used APs required (low threshold)
 }
