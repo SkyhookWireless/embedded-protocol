@@ -54,12 +54,13 @@ message Rq {
     bytes device_id = 1;
     uint64 timestamp = 2; // Seconds since epoch (Jan 1, 1970)
     Aps aps = 3;
-    GsmCells gsm_cells = 4;
-    UmtsCells umts_cells = 5;
-    LteCells lte_cells = 6;
-    CdmaCells cdma_cells = 7;
-    NbiotCells nbiot_cells = 8;
-    Gnss gnss = 9;
+    Vaps vaps = 4;
+    GsmCells gsm_cells = 5;
+    UmtsCells umts_cells = 6;
+    LteCells lte_cells = 7;
+    CdmaCells cdma_cells = 8;
+    NbiotCells nbiot_cells = 9;
+    Gnss gnss = 10;
 }
 
 message Aps {
@@ -70,7 +71,10 @@ message Aps {
     repeated int32 frequency = 5;    // Not valued if all frequency are the same.
     repeated uint32 neg_rssi = 6;    // -rssi
     repeated uint32 age = 7;         // Not valued if all ages are the same.
-    repeated uint32 vap_delta = 8;   // AP index(8bit), nibble index(4bit), replacement nibble(4bit)
+}
+
+message Vaps {
+    repeated bytes vap = 1; // len, AP index(8bit), nibble index(4bit), replacement nibble(4bit)
 }
 
 message GsmCells {
