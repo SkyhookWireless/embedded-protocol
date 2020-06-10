@@ -53,8 +53,16 @@ message CryptoInfo {
 message Rq {
     bytes device_id = 1;
     uint64 timestamp = 2; // Seconds since epoch (Jan 1, 1970)
-    Aps aps = 3;
-    bytes vaps = 10; // len, AP index(8bit), nibble index(4bit), replacement nibble(4bit)
+    Aps aps = 3; // AP details: MAC, freq, rssi, etc
+    // Virtual APs (vaps) are encoded in a bytes field (length + bytes)
+    // The vaps field length is sub-divieded into length delimited sub-fields, one for each VAP group
+    // Each vap group is defined by:
+    //  length of field in bytes,
+    //  AP index(8bit) i.e. 0 based index of parent AP in 'aps' field
+    //  [nibble index(4bit), replacement nibble(4bit)]... repeated
+    //
+    // vap groups are repeated until the overall vaps length is reached.
+    bytes vaps = 10;
     GsmCells gsm_cells = 4;
     UmtsCells umts_cells = 5;
     LteCells lte_cells = 6;
