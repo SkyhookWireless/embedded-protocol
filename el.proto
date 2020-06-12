@@ -53,7 +53,16 @@ message CryptoInfo {
 message Rq {
     bytes device_id = 1;
     uint64 timestamp = 2; // Seconds since epoch (Jan 1, 1970)
-    Aps aps = 3;
+    Aps aps = 3; // AP details: MAC, freq, rssi, etc
+    // Virtual APs (vaps) are encoded in a bytes field (length + bytes)
+    // The vaps field length is sub-divieded into length delimited sub-fields, one for each VAP group
+    // Each vap group is defined by:
+    //  length of field in bytes,
+    //  AP index(8bit) i.e. 0 based index of parent AP in 'aps' field
+    //  [nibble index(4bit), replacement nibble(4bit)]... repeated
+    //
+    // vap groups are repeated until the overall vaps length is reached.
+    bytes vaps = 10;
     GsmCells gsm_cells = 4;
     UmtsCells umts_cells = 5;
     LteCells lte_cells = 6;
@@ -152,13 +161,22 @@ message Rs {
     uint32 hpe = 3;
     Source source = 4;
     ClientConfig config = 5;
+    bytes used_aps = 6;               // Bitmap denoting whether an AP was Used by server
+                                      // Big endian. Length = (number of APs + 7) / 8
+                                      // Least Sig Bit of last byte corresponds to first AP
+                                      // Least Sig Bit of second to last byte corresponds to ninth AP etc
+                                      // Aps are counted based on their position in the request
 }
 
-message ClientConfig {             // zero value means 'not overridden' i.e use default
-    uint32 total_beacons = 1;
-    uint32 max_ap_beacons = 2;
-    uint32 cache_match_threshold = 3;
-    uint32 cache_age_threshold = 4;
-    uint32 cache_beacon_threshold = 5;
-    uint32 cache_neg_rssi_threshold = 6;
+message ClientConfig {                        // zero value means 'not overridden' i.e use default
+    uint32 total_beacons = 1;                 // Number of beacons in a request
+    uint32 max_ap_beacons = 2;                // Number of APs in a request
+    uint32 cache_match_threshold = 3;         // % of matching APs required (obsolete)
+    uint32 cache_age_threshold = 4;           // Maximum age of cacheline (hours)
+    uint32 cache_beacon_threshold = 5;        // Minimun number of Used APs required to use low threshold
+    uint32 cache_neg_rssi_threshold = 6;      // Minimum strength of AP
+    uint32 cache_match_all_threshold = 7;     // % of matching APs required (high threshold)
+    uint32 cache_match_used_threshold = 8;    // % of matching Used APs required (low threshold)
+    uint32 max_vap_per_ap = 9;                // Max Number of VAPs in a AP
+    uint32 max_vap_per_rq = 10;               // Max Number of VAPs in a request
 }
