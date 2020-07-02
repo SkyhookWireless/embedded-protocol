@@ -53,11 +53,11 @@ message Rq {
     bytes device_id = 1;
     uint64 timestamp = 2; // Seconds since epoch (Jan 1, 1970)
     Aps aps = 3;
-    GsmCells gsm_cells = 4;
-    UmtsCells umts_cells = 5;
-    LteCells lte_cells = 6;
-    CdmaCells cdma_cells = 7;
-    NbiotCells nbiot_cells = 8;
+    GsmCells gsm_cells = 4 [deprecated=true];
+    UmtsCells umts_cells = 5 [deprecated=true];
+    LteCells lte_cells = 6 [deprecated=true];
+    CdmaCells cdma_cells = 7 [deprecated=true];
+    NbiotCells nbiot_cells = 8 [deprecated=true];
     Gnss gnss = 9;
     repeated Cell cells = 10;
 }
