@@ -73,7 +73,15 @@ message Aps {
 }
 
 message Cell {
-    uint32 type = 1;     // 3-CDMA, 4-GSM, 5-LTE, 6-NBIOT, 7-UMTS
+    enum Type {
+        UNKNOWN = 0;
+        CDMA = 3;
+        GSM = 4;
+        LTE = 5;
+        NBIOT = 6;
+        UMTS = 7;
+    }
+    Type type = 1;
     uint32 id1_plus_1 = 2;
     uint32 id2_plus_1 = 3;
     uint32 id3_plus_1 = 4;
