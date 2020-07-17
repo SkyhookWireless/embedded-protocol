@@ -62,7 +62,7 @@ message Rq {
     //  [nibble index(4bit), replacement nibble(4bit)]... repeated
     //
     // vap groups are repeated until the overall vaps length is reached.
-    bytes vaps = 10;
+    bytes vaps = 11;
     GsmCells gsm_cells = 4 [deprecated=true];
     UmtsCells umts_cells = 5 [deprecated=true];
     LteCells lte_cells = 6 [deprecated=true];
