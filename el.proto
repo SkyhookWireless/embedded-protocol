@@ -63,12 +63,13 @@ message Rq {
     //
     // vap groups are repeated until the overall vaps length is reached.
     bytes vaps = 10;
-    GsmCells gsm_cells = 4;
-    UmtsCells umts_cells = 5;
-    LteCells lte_cells = 6;
-    CdmaCells cdma_cells = 7;
-    NbiotCells nbiot_cells = 8;
+    GsmCells gsm_cells = 4 [deprecated=true];
+    UmtsCells umts_cells = 5 [deprecated=true];
+    LteCells lte_cells = 6 [deprecated=true];
+    CdmaCells cdma_cells = 7 [deprecated=true];
+    NbiotCells nbiot_cells = 8 [deprecated=true];
     Gnss gnss = 9;
+    repeated Cell cells = 10;
 }
 
 message Aps {
@@ -79,6 +80,27 @@ message Aps {
     repeated int32 frequency = 5;    // Not valued if all frequency are the same.
     repeated uint32 neg_rssi = 6;    // -rssi
     repeated uint32 age = 7;         // Not valued if all ages are the same.
+}
+
+message Cell {
+    enum Type {
+        UNKNOWN = 0;
+        CDMA = 3;
+        GSM = 4;
+        LTE = 5;
+        NBIOT = 6;
+        UMTS = 7;
+    }
+    Type type = 1;
+    uint32 id1_plus_1 = 2;
+    uint32 id2_plus_1 = 3;
+    uint32 id3_plus_1 = 4;
+    uint32 id4_plus_1 = 5;
+    uint32 id5_plus_1 = 6;
+    uint32 id6_plus_1 = 7;
+    bool connected = 8;  // True-device is connected to this cell
+    uint32 neg_rssi = 9; // -rssi
+    uint32 age = 10;
 }
 
 message GsmCells {
