@@ -80,7 +80,7 @@ message Cell {
         LTE = 5;
         NBIOT = 6;
         UMTS = 7;
-        NR5G = 8;
+        NR = 8;
     }
     Type type = 1;
     uint32 id1_plus_1 = 2;
