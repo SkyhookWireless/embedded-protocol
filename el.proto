@@ -90,12 +90,13 @@ message Cell {
         LTE = 5;
         NBIOT = 6;
         UMTS = 7;
+        NR = 8;
     }
     Type type = 1;
     uint32 id1_plus_1 = 2;
     uint32 id2_plus_1 = 3;
     uint32 id3_plus_1 = 4;
-    uint32 id4_plus_1 = 5;
+    uint64 id4_plus_1 = 5;
     uint32 id5_plus_1 = 6;
     uint32 id6_plus_1 = 7;
     bool connected = 8;  // True-device is connected to this cell
