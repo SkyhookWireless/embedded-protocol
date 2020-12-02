@@ -26,7 +26,6 @@ message RqHeader {
     int32 rq_length = 3; // Includes any AES padding
     uint32 sw_version = 4;
     bool request_client_conf = 5;
-    uint32 sequence = 6;
 }
 
 message RsHeader {
@@ -61,8 +60,9 @@ message Rq {
     NbiotCells nbiot_cells = 8 [deprecated=true];
     Gnss gnss = 9;
     repeated Cell cells = 10;
-    uint32 score = 11; // this could be a repeated array with values for all cachelines
-    uint32 threshold = 12;
+    uint32 sequence = 11;
+    uint32 score = 12; // this could be a repeated array with values for all cachelines
+    uint32 threshold = 13;
 }
 
 message Aps {
