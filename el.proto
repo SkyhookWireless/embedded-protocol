@@ -102,6 +102,7 @@ message Cell {
     bool connected = 8;  // True-device is connected to this cell
     uint32 neg_rssi = 9; // -rssi
     uint32 age = 10;
+    uint32 ta_plus_1 = 11; // valid for LTE, GSM, NR only
 }
 
 message GsmCells {
