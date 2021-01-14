@@ -70,11 +70,11 @@ message Rq {
     NbiotCells nbiot_cells = 8 [deprecated=true];
     Gnss gnss = 9;
     repeated Cell cells = 10;
-    uint32 sequence = 11;
-    uint32 score = 12; // this could be a repeated array with values for all cachelines
-    uint32 threshold = 13;
-    bytes ctx = 14;
-    bytes cache = 15;
+    uint32 sequence = 12;
+    uint32 score = 13; // this could be a repeated array with values for all cachelines
+    uint32 threshold = 14;
+    bytes ctx = 15;
+    bytes cache = 16;
 }
 
 message Aps {
