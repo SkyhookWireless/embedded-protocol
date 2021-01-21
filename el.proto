@@ -205,6 +205,7 @@ message Rs {
                                       // Least Sig Bit of last byte corresponds to first AP
                                       // Least Sig Bit of second to last byte corresponds to ninth AP etc
                                       // Aps are counted based on their position in the request
+    TbrInfo tbr = 7;                  // TBR fields
 }
 
 message ClientConfig {                        // zero value means 'not overridden' i.e use default
