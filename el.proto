@@ -36,6 +36,7 @@ message RsHeader {
         BAD_PARTNER_ID_ERROR = 2;
         DECODE_FAILURE_ERROR = 3;
         API_SERVER_ERROR = 4;
+        AUTH_ERROR = 5;
     }
 
     int32 crypto_info_length = 1;
@@ -54,6 +55,13 @@ message Rq {
     bytes device_id = 1;
     uint64 timestamp = 2; // Seconds since epoch (Jan 1, 1970)
     Aps aps = 3; // AP details: MAC, freq, rssi, etc
+    GsmCells gsm_cells = 4 [deprecated=true];
+    UmtsCells umts_cells = 5 [deprecated=true];
+    LteCells lte_cells = 6 [deprecated=true];
+    CdmaCells cdma_cells = 7 [deprecated=true];
+    NbiotCells nbiot_cells = 8 [deprecated=true];
+    Gnss gnss = 9;
+    repeated Cell cells = 10;
     // Virtual APs (vaps) are encoded in a bytes field (length + bytes)
     // The vaps field length is sub-divieded into length delimited sub-fields, one for each VAP group
     // Each vap group is defined by:
@@ -63,18 +71,19 @@ message Rq {
     //
     // vap groups are repeated until the overall vaps length is reached.
     bytes vaps = 11;
-    GsmCells gsm_cells = 4 [deprecated=true];
-    UmtsCells umts_cells = 5 [deprecated=true];
-    LteCells lte_cells = 6 [deprecated=true];
-    CdmaCells cdma_cells = 7 [deprecated=true];
-    NbiotCells nbiot_cells = 8 [deprecated=true];
-    Gnss gnss = 9;
-    repeated Cell cells = 10;
-    uint32 sequence = 12;
+    uint32 sequence = 12; // number of client requests processed
     uint32 score = 13; // this could be a repeated array with values for all cachelines
-    uint32 threshold = 14;
-    bytes ctx = 15;
-    bytes cache = 16;
+    uint32 threshold = 14; // score is compared to this
+    bytes ctx = 15; // workspace memory block
+    bytes cache = 16; // cache contents memory block
+    int32 token_id = 17;  // 0 means that TBR is not being used in this request
+    TbrRegistration tbr = 18; // TBR registration fields
+}
+
+message TbrRegistration {
+    bytes device_id = 2; // device_id is populated here for TBR registration, and not in Rq
+    bytes sku = 3;       // SKU or model must be populated for TBR registration
+    int32 cc = 4;        // country code is optional
 }
 
 message Aps {
@@ -195,6 +204,7 @@ message Rs {
                                       // Least Sig Bit of last byte corresponds to first AP
                                       // Least Sig Bit of second to last byte corresponds to ninth AP etc
                                       // Aps are counted based on their position in the request
+    int32 token_id = 7;               // non-0 means that TBR registration was successful
 }
 
 message ClientConfig {                        // zero value means 'not overridden' i.e use default
