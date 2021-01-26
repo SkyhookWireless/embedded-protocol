@@ -24,7 +24,7 @@ syntax = "proto3";
 message RqHeader {
     int32 partner_id = 1;
     int32 crypto_info_length = 2;
-    int32 rq_length = 3; // Includes any AES padding
+    int32 rq_length = 3;             // Includes any AES padding
     uint32 sw_version = 4;
     bool request_client_conf = 5;
 }
@@ -40,12 +40,12 @@ message RsHeader {
     }
 
     int32 crypto_info_length = 1;
-    int32 rs_length = 2; // Includes any AES padding
+    int32 rs_length = 2;             // Includes any AES padding
     Status status = 3;
 }
 
 message CryptoInfo {
-    bytes iv = 1; // Always 16 bytes in length
+    bytes iv = 1;                    // Always 16 bytes in length
     int32 aes_padding_length = 2;
 }
 
@@ -53,8 +53,8 @@ message CryptoInfo {
 //
 message Rq {
     bytes device_id = 1;
-    uint64 timestamp = 2; // Seconds since epoch (Jan 1, 1970)
-    Aps aps = 3; // AP details: MAC, freq, rssi, etc
+    uint64 timestamp = 2;            // Seconds since epoch (Jan 1, 1970)
+    Aps aps = 3;                     // AP details: MAC, freq, rssi, etc
     GsmCells gsm_cells = 4 [deprecated=true];
     UmtsCells umts_cells = 5 [deprecated=true];
     LteCells lte_cells = 6 [deprecated=true];
@@ -71,19 +71,19 @@ message Rq {
     //
     // vap groups are repeated until the overall vaps length is reached.
     bytes vaps = 11;
-    uint32 sequence = 12; // number of client requests processed
-    uint32 score = 13; // this could be a repeated array with values for all cachelines
-    uint32 threshold = 14; // score is compared to this
-    bytes ctx = 15; // workspace memory block
-    bytes cache = 16; // cache contents memory block
-    int32 token_id = 17;  // 0 means that TBR is not being used in this request
-    TbrRegistration tbr = 18; // TBR registration fields
+    uint32 seq_num = 12;             // number of client requests processed
+    uint32 score = 13;               // this could be a repeated array with values for all cachelines
+    uint32 score_threshold = 14;     // score is compared to this
+    bytes ctx = 15;                  // workspace memory block
+    bytes cache = 16;                // cache contents memory block
+    int32 token_id = 17;             // present (i.e., non-zero) only for clients using TBR
+    TbrRegistration tbr = 18;        // present (i.e., non-zero) for TBR registration requests
 }
 
 message TbrRegistration {
-    bytes device_id = 2; // device_id is populated here for TBR registration, and not in Rq
-    bytes sku = 3;       // SKU or model must be populated for TBR registration
-    int32 cc = 4;        // country code is optional
+    bytes device_id = 2;
+    bytes sku = 3;                   // SKU or model
+    int32 cc = 4;                    // country code is optional
 }
 
 message Aps {
@@ -113,10 +113,10 @@ message Cell {
     uint64 id4_plus_1 = 5;
     uint32 id5_plus_1 = 6;
     uint32 id6_plus_1 = 7;
-    bool connected = 8;  // True-device is connected to this cell
-    uint32 neg_rssi = 9; // -rssi
+    bool connected = 8;              // True-device is connected to this cell
+    uint32 neg_rssi = 9;             // -rssi
     uint32 age = 10;
-    uint32 ta_plus_1 = 11; // valid for LTE, GSM, NR only
+    uint32 ta_plus_1 = 11;           // valid for LTE, GSM, NR only
 }
 
 message GsmCells {
@@ -199,23 +199,23 @@ message Rs {
     uint32 hpe = 3;
     Source source = 4;
     ClientConfig config = 5;
-    bytes used_aps = 6;               // Bitmap denoting whether an AP was Used by server
-                                      // Big endian. Length = (number of APs + 7) / 8
-                                      // Least Sig Bit of last byte corresponds to first AP
-                                      // Least Sig Bit of second to last byte corresponds to ninth AP etc
-                                      // Aps are counted based on their position in the request
-    int32 token_id = 7;               // non-0 means that TBR registration was successful
+    bytes used_aps = 6;              // Bitmap denoting whether an AP was Used by server
+                                     // Big endian. Length = (number of APs + 7) / 8
+                                     // Least Sig Bit of last byte corresponds to first AP
+                                     // Least Sig Bit of second to last byte corresponds to ninth AP etc
+                                     // Aps are counted based on their position in the request
+    int32 token_id = 7;              // present (i.e., non-zero) only for successful registration response messages
 }
 
-message ClientConfig {                        // zero value means 'not overridden' i.e use default
-    uint32 total_beacons = 1;                 // Number of beacons in a request
-    uint32 max_ap_beacons = 2;                // Number of APs in a request
-    uint32 cache_match_threshold = 3;         // % of matching APs required (obsolete)
-    uint32 cache_age_threshold = 4;           // Maximum age of cacheline (hours)
-    uint32 cache_beacon_threshold = 5;        // Minimun number of Used APs required to use low threshold
-    uint32 cache_neg_rssi_threshold = 6;      // Minimum strength of AP
-    uint32 cache_match_all_threshold = 7;     // % of matching APs required (high threshold)
-    uint32 cache_match_used_threshold = 8;    // % of matching Used APs required (low threshold)
-    uint32 max_vap_per_ap = 9;                // Max Number of VAPs in a AP
-    uint32 max_vap_per_rq = 10;               // Max Number of VAPs in a request
+message ClientConfig {               // zero value means 'not overridden' i.e use default
+    uint32 total_beacons = 1;        // Number of beacons in a request
+    uint32 max_ap_beacons = 2;       // Number of APs in a request
+    uint32 cache_match_threshold = 3;// % of matching APs required (obsolete)
+    uint32 cache_age_threshold = 4;  // Maximum age of cacheline (hours)
+    uint32 cache_beacon_threshold = 5;       // Minimun number of Used APs required to use low threshold
+    uint32 cache_neg_rssi_threshold = 6;     // Minimum strength of AP
+    uint32 cache_match_all_threshold = 7;    // % of matching APs required (high threshold)
+    uint32 cache_match_used_threshold = 8;   // % of matching Used APs required (low threshold)
+    uint32 max_vap_per_ap = 9;       // Max Number of VAPs in a AP
+    uint32 max_vap_per_rq = 10;      // Max Number of VAPs in a request
 }
