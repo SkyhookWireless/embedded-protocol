@@ -78,10 +78,11 @@ message Rq {
     bytes cache = 16;                // cache contents memory block
     int32 token_id = 17;             // present (i.e., non-zero) only for clients using TBR
     TbrRegistration tbr = 18;        // present (i.e., non-zero) for TBR registration requests
+    int32 max_dl_app_data = 19;      // Maximum length of downlink app data accepted
+    bytes ul_app_data = 20;          // Uplink app data
 }
 
 message TbrRegistration {
-    bytes device_id = 2;
     bytes sku = 3;                   // SKU or model
     int32 cc = 4;                    // country code is optional
 }
@@ -205,6 +206,7 @@ message Rs {
                                      // Least Sig Bit of second to last byte corresponds to ninth AP etc
                                      // Aps are counted based on their position in the request
     int32 token_id = 7;              // present (i.e., non-zero) only for successful registration response messages
+    bytes dl_app_data = 8;           // Downlink app data
 }
 
 message ClientConfig {               // zero value means 'not overridden' i.e use default
