@@ -83,7 +83,7 @@ message Rq {
 }
 
 message TbrRegistration {
-    bytes sku = 3;                   // SKU or model
+    string sku = 3;                  // SKU or model
     int32 cc = 4;                    // country code is optional
 }
 
