@@ -37,6 +37,9 @@ message RsHeader {
         DECODE_FAILURE_ERROR = 3;
         API_SERVER_ERROR = 4;
         AUTH_ERROR = 5;
+        // UNABLE_TO_LOCATE is sent only to clients on sw_version 13 or later.
+        // Older clients will continue to receive API_SERVER_ERROR status,
+        UNABLE_TO_LOCATE = 6;
     }
 
     int32 crypto_info_length = 1;
