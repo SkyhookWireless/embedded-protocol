@@ -74,7 +74,7 @@ message Rq {
     //
     // vap groups are repeated until the overall vaps length is reached.
     bytes vaps = 11;
-    uint32 seq_num = 12;             // number of client requests processed
+    uint32 cache_hits = 12;          // number of cache hits since last cache miss
     uint32 score = 13;               // this could be a repeated array with values for all cachelines
     uint32 score_threshold = 14;     // score is compared to this
     bytes ctx = 15;                  // workspace memory block
